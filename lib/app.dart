@@ -1,4 +1,5 @@
 import 'package:first_screen/src/features/posten/presentation/pages/home_page.dart';
+import 'package:first_screen/src/features/posten/presentation/pages/notification_page.dart';
 
 import 'package:flutter/material.dart';
 
@@ -16,7 +17,7 @@ class _MainAppState extends State<MainApp> {
     HomePage(),
     Center(child: Text("Suche")),
     Center(child: Text("Beitrag")),
-    Center(child: Text("Benachrichtigungen")),
+    NotificationPage(),
     Center(child: Text("Profil")),
   ];
 

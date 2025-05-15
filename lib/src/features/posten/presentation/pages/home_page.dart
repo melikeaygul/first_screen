@@ -20,7 +20,7 @@ class HomePage extends StatelessWidget {
         itemBuilder: (context, index) {
           final post = posts[index];
           return Padding(
-            padding: const EdgeInsets.only(bottom: 20),
+            padding: const EdgeInsets.only(bottom: 35),
             child: Container(
               child: postPicture(
                 creatorName: post.creatorName,
