@@ -60,7 +60,7 @@ class postPicture extends StatelessWidget {
             topLeft: Radius.circular(10),
             topRight: Radius.circular(10),
           ),
-          child: Container(
+          child: SizedBox(
             height: 271,
             width: 349,
             child: Image.network(imageUrls, fit: BoxFit.cover),

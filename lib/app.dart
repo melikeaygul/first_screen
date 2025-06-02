@@ -1,5 +1,6 @@
 import 'package:first_screen/src/features/posten/presentation/pages/home_page.dart';
 import 'package:first_screen/src/features/posten/presentation/pages/notification_page.dart';
+import 'package:first_screen/src/features/posten/presentation/pages/profil_page.dart';
 
 import 'package:flutter/material.dart';
 
@@ -18,7 +19,7 @@ class _MainAppState extends State<MainApp> {
     Center(child: Text("Suche")),
     Center(child: Text("Beitrag")),
     NotificationPage(),
-    Center(child: Text("Profil")),
+    ProfilPage(),
   ];
 
   @override

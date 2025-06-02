@@ -9,10 +9,10 @@ class MockDatabaseRepository implements DatabaseRepository {
     Post(
       id: "Sarah Nielsen",
       createdAt: DateTime.now(),
-      description: "Diese neuen Outfits, sind perfekt für den HYM!",
+      description: "Diese neuen Outfits, sind perfekt für den GYM!",
       tags: ["Sommer", "GYY", "Sport"],
       links: ["Https/:gym.fit"],
-      imageUrls: ["https://picsum.photos/id/1/200/300"],
+      imageUrls: ["https://picsum.photos/id/770/200/300"],
       creatorId: "sarah_nielsen",
       creatorProfilePicUrl: "",
       creatorAccountName: "creatorAccountName",
@@ -27,7 +27,7 @@ class MockDatabaseRepository implements DatabaseRepository {
       description: "It's Summer Time!!",
       tags: ["Summer", "Elegant"],
       links: ["https://summer.fashion.com"],
-      imageUrls: ["https://picsum.photos/id/1/200/300"],
+      imageUrls: ["https://picsum.photos/id/64/200/300"],
       creatorId: "anna.laurent",
       creatorProfilePicUrl: "12",
       creatorAccountName: "creatorAccountName",
@@ -42,7 +42,7 @@ class MockDatabaseRepository implements DatabaseRepository {
       description: "Rock the House guys! Elegant is the best Style!",
       tags: ["Summer", "Elegant"],
       links: ["https://elegant.lounge.de"],
-      imageUrls: ["https://picsum.photos/id/1/200/300"],
+      imageUrls: ["https://picsum.photos/id/331/200/300"],
       creatorId: "luara_lient",
       creatorProfilePicUrl: "12",
       creatorAccountName: "creatorAccountName",
@@ -52,10 +52,10 @@ class MockDatabaseRepository implements DatabaseRepository {
       shares: 7,
     ),
   ];
-  List<Comment> _comments = [];
-  List<UserProfile> _userProfiles = [];
-  List<String> _bookmarkedPosts = [];
-  List<String> _likedPosts = [];
+  final List<Comment> _comments = [];
+  final List<UserProfile> _userProfiles = [];
+  final List<String> _bookmarkedPosts = [];
+  final List<String> _likedPosts = [];
 
   @override
   void addComment(Comment comment) {

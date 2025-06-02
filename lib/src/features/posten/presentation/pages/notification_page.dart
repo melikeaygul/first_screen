@@ -56,7 +56,6 @@ class NotificationPage extends StatelessWidget {
 
     return Padding(
       padding: const EdgeInsets.all(16),
-
       child: ListView.builder(
         itemCount: notifications.length,
         itemBuilder: (context, index) {
