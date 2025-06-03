@@ -1,7 +1,9 @@
+import 'package:first_screen/src/features/posten/presentation/pages/add_post_page.dart';
 import 'package:first_screen/src/features/posten/presentation/pages/home_page.dart';
 import 'package:first_screen/src/features/posten/presentation/pages/notification_page.dart';
 import 'package:first_screen/src/features/posten/presentation/pages/profil_page.dart';
-
+import 'package:first_screen/src/features/posten/presentation/pages/search_page.dart';
+import 'package:first_screen/src/features/posten/presentation/widgest/post_picture.dart';
 import 'package:flutter/material.dart';
 
 class MainApp extends StatefulWidget {
@@ -16,8 +18,8 @@ class _MainAppState extends State<MainApp> {
 
   final List<Widget> _pages = [
     HomePage(),
-    Center(child: Text("Suche")),
-    Center(child: Text("Beitrag")),
+    SearchPage(),
+    AddPostPage(),
     NotificationPage(),
     ProfilPage(),
   ];
