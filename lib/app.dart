@@ -1,19 +1,20 @@
+import 'package:first_screen/src/features/loginScreens/splash_screen.dart';
 import 'package:first_screen/src/features/posten/presentation/pages/add_post_page.dart';
 import 'package:first_screen/src/features/posten/presentation/pages/home_page.dart';
 import 'package:first_screen/src/features/posten/presentation/pages/notification_page.dart';
 import 'package:first_screen/src/features/posten/presentation/pages/profil_page.dart';
 import 'package:first_screen/src/features/posten/presentation/pages/search_page.dart';
-import 'package:first_screen/src/features/posten/presentation/widgest/post_picture.dart';
+
 import 'package:flutter/material.dart';
 
-class MainApp extends StatefulWidget {
-  const MainApp({super.key});
+class Navigation extends StatefulWidget {
+  const Navigation({super.key});
 
   @override
-  State<MainApp> createState() => _MainAppState();
+  State<Navigation> createState() => _MainAppState();
 }
 
-class _MainAppState extends State<MainApp> {
+class _MainAppState extends State<Navigation> {
   int _currentIndex = 1;
 
   final List<Widget> _pages = [
@@ -54,6 +55,17 @@ class _MainAppState extends State<MainApp> {
         ),
         BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profil'),
       ],
+    );
+  }
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'StyleSphere',
+      debugShowCheckedModeBanner: false,
+      home: SplashScreen(),
     );
   }
 }
