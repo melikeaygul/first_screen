@@ -20,10 +20,8 @@ class HomePage extends StatelessWidget {
         future: fetchPosts(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            // Zeige Ladespinner während die Daten geladen werden
             return const Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
-            // Fehlerbehandlung
             return Center(child: Text('Fehler: ${snapshot.error}'));
           } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
             return const Center(child: Text('Keine Posts gefunden.'));
