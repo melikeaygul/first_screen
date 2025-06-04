@@ -1,10 +1,12 @@
+import 'dart:async';
+import 'dart:math';
+
 import '../features/posten/domain/comment.dart';
 import 'database_repository.dart';
 import '../features/posten/domain/post.dart';
 import '../features/userProfil/domain/user_profile.dart';
 
 class MockDatabaseRepository implements DatabaseRepository {
-  // Simulierte Datenbanken
   final List<Post> _posts = [
     Post(
       id: "Sarah Nielsen",
@@ -52,69 +54,69 @@ class MockDatabaseRepository implements DatabaseRepository {
       shares: 7,
     ),
   ];
+
   final List<Comment> _comments = [];
   final List<UserProfile> _userProfiles = [];
   final List<String> _bookmarkedPosts = [];
   final List<String> _likedPosts = [];
 
+  Future<void> _simulateDelay() async {
+    final delay = Duration(seconds: Random().nextInt(3) + 1);
+    await Future.delayed(delay);
+  }
+
   @override
-  void addComment(Comment comment) {
-    // look for post this comment belongs to
-    // and increase the comment count of this post
+  Future<void> addComment(Comment comment) async {
+    await _simulateDelay();
     for (Post post in _posts) {
       if (post.id == comment.postId) {
         post.comments++;
       }
     }
-    // add comment to the list of comments
     _comments.add(comment);
   }
 
   @override
-  void addPost(Post post) {
+  Future<void> addPost(Post post) async {
+    await _simulateDelay();
     _posts.add(post);
   }
 
   @override
-  void bookmarkPost(String postId) {
+  Future<void> bookmarkPost(String postId) async {
+    await _simulateDelay();
     if (!_bookmarkedPosts.contains(postId)) {
       _bookmarkedPosts.add(postId);
     }
   }
 
   @override
-  List<Comment> getComments(String postId) {
-    List<Comment> postComments = [];
-    for (Comment comment in _comments) {
-      if (comment.postId == postId) {
-        postComments.add(comment);
-      }
-    }
-    return postComments;
+  Future<List<Comment>> getComments(String postId) async {
+    await _simulateDelay();
+    return _comments.where((comment) => comment.postId == postId).toList();
   }
 
   @override
-  List<Post> getPosts() {
+  Future<List<Post>> getPosts() async {
+    await _simulateDelay();
     return _posts;
   }
 
   @override
-  UserProfile? getUserProfile(String userId) {
-    for (UserProfile userProfile in _userProfiles) {
-      if (userProfile.id == userId) {
-        return userProfile;
-      }
+  Future<UserProfile?> getUserProfile(String userId) async {
+    await _simulateDelay();
+    try {
+      return _userProfiles.firstWhere((profile) => profile.id == userId);
+    } catch (e) {
+      return null;
     }
-    // If no user profile is found, return null
-    return null;
   }
 
   @override
-  void likePost(String postId) {
+  Future<void> likePost(String postId) async {
+    await _simulateDelay();
     if (!_likedPosts.contains(postId)) {
       _likedPosts.add(postId);
-      // look for post this like belongs to
-      // and increase the like count of this post
       for (Post post in _posts) {
         if (post.id == postId) {
           post.likes++;
@@ -124,41 +126,38 @@ class MockDatabaseRepository implements DatabaseRepository {
   }
 
   @override
-  void removePost(String postId) {
-    for (Post post in _posts) {
-      if (post.id == postId) {
-        _posts.remove(post);
-      }
-    }
+  Future<void> removePost(String postId) async {
+    await _simulateDelay();
+    _posts.removeWhere((post) => post.id == postId);
   }
 
   @override
-  void unbookmarkPost(String postId) {
-    if (_bookmarkedPosts.contains(postId)) {
-      _bookmarkedPosts.remove(postId);
-    }
+  Future<void> unbookmarkPost(String postId) async {
+    await _simulateDelay();
+    _bookmarkedPosts.remove(postId);
   }
 
   @override
-  void unlikePost(String postId) {
-    if (_likedPosts.contains(postId)) {
-      _likedPosts.remove(postId);
-      // look for post this like belongs to
-      // and decrease the like count of this post
+  Future<void> unlikePost(String postId) async {
+    await _simulateDelay();
+    if (_likedPosts.remove(postId)) {
       for (Post post in _posts) {
         if (post.id == postId) {
-          post.likes--;
+          post.likes = post.likes > 0 ? post.likes - 1 : 0;
         }
       }
     }
   }
 
   @override
-  void updateUserProfile(UserProfile userProfile) {
+  Future<void> updateUserProfile(UserProfile userProfile) async {
+    await _simulateDelay();
     for (int i = 0; i < _userProfiles.length; i++) {
       if (_userProfiles[i].id == userProfile.id) {
         _userProfiles[i] = userProfile;
+        return;
       }
     }
+    _userProfiles.add(userProfile);
   }
 }

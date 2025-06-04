@@ -4,19 +4,19 @@ import '../features/userProfil/domain/user_profile.dart';
 
 abstract class DatabaseRepository {
   // Posts
-  List<Post> getPosts();
-  void addPost(Post post);
-  void removePost(String postId);
-  void likePost(String postId);
-  void unlikePost(String postId);
-  void bookmarkPost(String postId);
-  void unbookmarkPost(String postId);
+  Future<List<Post>> getPosts();
+  Future<void> addPost(Post post);
+  Future<void> removePost(String postId);
+  Future<void> likePost(String postId);
+  Future<void> unlikePost(String postId);
+  Future<void> bookmarkPost(String postId);
+  Future<void> unbookmarkPost(String postId);
 
   // Comments
-  List<Comment> getComments(String postId);
-  void addComment(Comment comment);
+  Future<List<Comment>> getComments(String postId);
+  Future<void> addComment(Comment comment);
 
   // User Profile
-  UserProfile? getUserProfile(String userId);
-  void updateUserProfile(UserProfile userProfile);
+  Future<UserProfile?> getUserProfile(String userId);
+  Future<void> updateUserProfile(UserProfile userProfile);
 }

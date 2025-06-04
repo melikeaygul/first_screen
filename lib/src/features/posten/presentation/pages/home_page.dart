@@ -7,29 +7,45 @@ import 'package:flutter/material.dart';
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
+  Future<List<Post>> fetchPosts() async {
+    final DatabaseRepository databaseRepository = MockDatabaseRepository();
+    return await databaseRepository.getPosts();
+  }
+
   @override
   Widget build(BuildContext context) {
-    final DatabaseRepository databaseRepository = MockDatabaseRepository();
-
-    List<Post> posts = databaseRepository.getPosts();
-
     return Padding(
       padding: const EdgeInsets.only(left: 23, right: 23, bottom: 20),
-      child: ListView.builder(
-        itemCount: posts.length,
-        itemBuilder: (context, index) {
-          final post = posts[index];
-          return Padding(
-            padding: const EdgeInsets.only(bottom: 35),
-            child: Container(
-              child: postPicture(
-                creatorName: post.creatorName,
-                creatorId: post.creatorId,
-                links: post.links.first,
-                imageUrls: post.imageUrls.first,
-                description: post.description,
-              ),
-            ),
+      child: FutureBuilder<List<Post>>(
+        future: fetchPosts(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            // Zeige Ladespinner während die Daten geladen werden
+            return const Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            // Fehlerbehandlung
+            return Center(child: Text('Fehler: ${snapshot.error}'));
+          } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+            return const Center(child: Text('Keine Posts gefunden.'));
+          }
+
+          final posts = snapshot.data!;
+
+          return ListView.builder(
+            itemCount: posts.length,
+            itemBuilder: (context, index) {
+              final post = posts[index];
+              return Padding(
+                padding: const EdgeInsets.only(bottom: 35),
+                child: postPicture(
+                  creatorName: post.creatorName,
+                  creatorId: post.creatorId,
+                  links: post.links.first,
+                  imageUrls: post.imageUrls.first,
+                  description: post.description,
+                ),
+              );
+            },
           );
         },
       ),
