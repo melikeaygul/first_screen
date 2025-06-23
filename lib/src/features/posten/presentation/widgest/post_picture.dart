@@ -6,6 +6,7 @@ class postPicture extends StatelessWidget {
   final String imageUrls;
   final String description;
   final String links;
+  final String profilImageUrl;
 
   const postPicture({
     super.key,
@@ -14,6 +15,7 @@ class postPicture extends StatelessWidget {
     required this.imageUrls,
     required this.description,
     required this.links,
+    required this.profilImageUrl,
   });
 
   @override
@@ -24,9 +26,7 @@ class postPicture extends StatelessWidget {
           children: [
             CircleAvatar(
               radius: 25.79,
-              foregroundImage: NetworkImage(
-                "https://picsum.photos/id/1/200/300",
-              ),
+              foregroundImage: NetworkImage(profilImageUrl),
             ),
             SizedBox(width: 4),
             Column(
@@ -79,7 +79,6 @@ class postPicture extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
-
             children: [
               Row(
                 children: [
@@ -102,7 +101,6 @@ class postPicture extends StatelessWidget {
                   ),
                 ],
               ),
-
               Padding(
                 padding: const EdgeInsets.only(left: 10, top: 7),
                 child: Text(

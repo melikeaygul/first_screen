@@ -101,6 +101,8 @@ class SearchPage extends StatelessWidget {
                               "https://picsum.photos/id/${index + 30}/300/200",
                           description: "Ein Beispielbild",
                           links: "www.example.com",
+                          profilImageUrl:
+                              'https://picsum.photos/id/${index + 50}/100/100',
                         ),
                       ),
                     );
