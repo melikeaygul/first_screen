@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 
-class postPicture extends StatelessWidget {
+class postPicture extends StatefulWidget {
   final String creatorName;
   final String creatorId;
   final String imageUrls;
   final String description;
   final String links;
   final String profilImageUrl;
+  final int initialLikes;
+  final int initialComments;
+  final int initialShares;
 
   const postPicture({
     super.key,
@@ -16,7 +19,45 @@ class postPicture extends StatelessWidget {
     required this.description,
     required this.links,
     required this.profilImageUrl,
+    required this.initialLikes,
+    required this.initialComments,
+    required this.initialShares,
   });
+
+  @override
+  State<postPicture> createState() => _postPictureState();
+}
+
+class _postPictureState extends State<postPicture> {
+  bool isLiked = false;
+  bool isBookmarked = false;
+  int likes = 0;
+  bool showComments = false;
+
+  @override
+  void initState() {
+    super.initState();
+    likes = widget.initialLikes;
+  }
+
+  void toggleLike() {
+    setState(() {
+      isLiked = !isLiked;
+      likes += isLiked ? 1 : -1;
+    });
+  }
+
+  void toggleBookmark() {
+    setState(() {
+      isBookmarked = !isBookmarked;
+    });
+  }
+
+  void toggleComments() {
+    setState(() {
+      showComments = !showComments;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,92 +67,130 @@ class postPicture extends StatelessWidget {
           children: [
             CircleAvatar(
               radius: 25.79,
-              foregroundImage: NetworkImage(profilImageUrl),
+              foregroundImage: NetworkImage(widget.profilImageUrl),
             ),
-            SizedBox(width: 4),
+            const SizedBox(width: 8),
             Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Padding(
-                  padding: const EdgeInsets.only(left: 11, bottom: 3),
-                  child: Text(
-                    creatorName,
-                    style: TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold,
-                      color: const Color.fromARGB(255, 70, 11, 92),
-                    ),
+                Text(
+                  widget.creatorName,
+                  style: const TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.bold,
+                    color: Color.fromARGB(255, 70, 11, 92),
                   ),
                 ),
                 Text(
-                  "@$creatorId",
-                  style: TextStyle(
+                  "@${widget.creatorId}",
+                  style: const TextStyle(
                     fontSize: 11,
                     fontWeight: FontWeight.bold,
-                    color: const Color.fromARGB(255, 70, 11, 92),
+                    color: Color.fromARGB(255, 70, 11, 92),
                   ),
                 ),
               ],
             ),
           ],
         ),
-        SizedBox(height: 8),
+        const SizedBox(height: 8),
         ClipRRect(
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(10),
-            topRight: Radius.circular(10),
-          ),
+          borderRadius: const BorderRadius.vertical(top: Radius.circular(10)),
           child: SizedBox(
             height: 271,
             width: 349,
-            child: Image.network(imageUrls, fit: BoxFit.cover),
+            child: Image.network(widget.imageUrls, fit: BoxFit.cover),
           ),
         ),
         Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.only(
-              bottomLeft: Radius.circular(10),
-              bottomRight: Radius.circular(10),
-            ),
-            color: const Color.fromARGB(255, 234, 178, 244),
+          decoration: const BoxDecoration(
+            borderRadius: BorderRadius.vertical(bottom: Radius.circular(10)),
+            color: Color.fromARGB(255, 234, 178, 244),
           ),
-          height: 100,
           width: 349,
+          padding: const EdgeInsets.all(8),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  IconButton(
-                    onPressed: () {},
-                    icon: Icon(Icons.favorite_border_outlined),
+                  Row(
+                    children: [
+                      Column(
+                        children: [
+                          IconButton(
+                            onPressed: toggleLike,
+                            icon: Icon(
+                              isLiked
+                                  ? Icons.favorite
+                                  : Icons.favorite_border_outlined,
+                              color: isLiked ? Colors.red : Colors.black,
+                            ),
+                          ),
+                          Text(likes.toString(),
+                              style: const TextStyle(fontSize: 12)),
+                        ],
+                      ),
+                      const SizedBox(width: 10),
+                      Column(
+                        children: [
+                          IconButton(
+                            onPressed: toggleComments,
+                            icon: const Icon(Icons.mode_comment_outlined),
+                          ),
+                          Text(widget.initialComments.toString(),
+                              style: const TextStyle(fontSize: 12)),
+                        ],
+                      ),
+                      const SizedBox(width: 10),
+                      Column(
+                        children: [
+                          IconButton(
+                            onPressed: () {},
+                            icon: const Icon(
+                                Icons.keyboard_double_arrow_right_outlined),
+                          ),
+                          Text(widget.initialShares.toString(),
+                              style: const TextStyle(fontSize: 12)),
+                        ],
+                      ),
+                    ],
                   ),
-                  IconButton(
-                    onPressed: () {},
-                    icon: Icon(Icons.mode_comment_outlined),
-                  ),
-                  IconButton(
-                    onPressed: () {},
-                    icon: Icon(Icons.keyboard_double_arrow_right_outlined),
-                  ),
-                  SizedBox(width: 150),
-                  IconButton(
-                    onPressed: () {},
-                    icon: Icon(Icons.bookmark_outline),
+                  Column(
+                    children: [
+                      IconButton(
+                        onPressed: toggleBookmark,
+                        icon: Icon(
+                          isBookmarked
+                              ? Icons.bookmark
+                              : Icons.bookmark_outline,
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                    ],
                   ),
                 ],
               ),
-              Padding(
-                padding: const EdgeInsets.only(left: 10, top: 7),
-                child: Text(
-                  "$creatorId : $description",
-                  style: TextStyle(fontSize: 10),
+              const SizedBox(height: 4),
+              Text(
+                "${widget.creatorId} : ${widget.description}",
+                style: const TextStyle(fontSize: 12),
+              ),
+              Text(
+                "Links: ${widget.links}",
+                style: const TextStyle(fontSize: 12),
+              ),
+              if (showComments) ...[
+                const SizedBox(height: 8),
+                const Text(
+                  "Kommentare:",
+                  style: TextStyle(fontWeight: FontWeight.bold),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 10),
-                child: Text("Links: $links", style: TextStyle(fontSize: 10)),
-              ),
+                const Text("- Super cool! 🔥"),
+                const Text("- Das muss ich auch probieren 😍"),
+                const Text("- Woher ist das Outfit?"),
+              ]
             ],
           ),
         ),

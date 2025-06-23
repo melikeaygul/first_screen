@@ -43,6 +43,9 @@ class HomePage extends StatelessWidget {
                   description: post.description,
                   profilImageUrl:
                       'https://picsum.photos/id/${index + 50}/100/100',
+                  initialLikes: post.likes,
+                  initialComments: post.comments,
+                  initialShares: post.shares,
                 ),
               );
             },
